@@ -1,4 +1,4 @@
-package com.deinmo.audiobibleapp.ui.theme
+package com.deinmo.audiobibleapp.feature_bible_catalog.presentation.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
