@@ -16,7 +16,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -25,19 +27,31 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
+    @Singleton
     class TokenInterceptor: Interceptor{
         override fun intercept(chain: Interceptor.Chain): Response {
-            val url = chain.request().url.newBuilder().addQueryParameter("api-key","c9a2280b85d3b51d98cfdd1a08f60f5e").build()
-            val original = chain.request().newBuilder().url(url).build()
-            return chain.proceed(original)
+            var url: Request = chain.request()
+            url =  url.newBuilder().addHeader("api-key","c9a2280b85d3b51d98cfdd1a08f60f5e").build()
+            return chain.proceed(url)
         }
     }
+
+  /*  @Singleton
+    @Provides
+    fun providehttpclient() {
+        val tokenInterceptor : TokenInterceptor()
+        return OkHttpClient.Builder()
+            .addInterceptor(tokenInterceptor)
+    }*/
 
     @Provides
     @Singleton
     fun ProvidebibleApi(): BibleApi{
-        var tokeninterceptor =TokenInterceptor()
-        var client = OkHttpClient.Builder().addInterceptor(tokeninterceptor).build()
+        val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+            this.level = HttpLoggingInterceptor.Level.BODY
+        }
+        var client = OkHttpClient.Builder().addInterceptor(TokenInterceptor()).addInterceptor(interceptor).build()
         return Retrofit.Builder()
             .baseUrl("https://api.scripture.api.bible/")
             .addConverterFactory(GsonConverterFactory.create())

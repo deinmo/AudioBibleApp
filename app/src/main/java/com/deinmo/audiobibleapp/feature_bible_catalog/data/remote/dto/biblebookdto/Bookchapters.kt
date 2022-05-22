@@ -1,11 +1,9 @@
-package com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.bookdto
+package com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.biblebookdto
 
-import androidx.compose.runtime.internal.illegalDecoyCallException
-import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.BookData
 import com.google.gson.annotations.SerializedName
 
 
-data class BookDatadto (
+data class Bookchapters (
 
   @SerializedName("id"        ) var id        : String? = null,
   @SerializedName("bibleId"   ) var bibleId   : String? = null,
@@ -13,11 +11,4 @@ data class BookDatadto (
   @SerializedName("bookId"    ) var bookId    : String? = null,
   @SerializedName("reference" ) var reference : String? = null
 
-){
-
-fun toBookData(): BookData {
-  return BookData(
-    id = id,
-  )
-}
-}
+)

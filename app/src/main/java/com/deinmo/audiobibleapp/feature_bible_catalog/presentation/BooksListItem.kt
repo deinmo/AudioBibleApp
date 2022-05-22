@@ -22,6 +22,6 @@ fun BibleListItem(
             .clickable { onitemclick(bookData) }
             .padding(16.dp)
     ) {
-        Text(text = bookData.bookid ?: "error",style = MaterialTheme.typography.body1)
+        bookData.name?.let { Text(text = it,style = MaterialTheme.typography.body1) }
     }
 }

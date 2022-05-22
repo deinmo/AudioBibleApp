@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deinmo.audiobibleapp.core.Resource
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases.GetSingleChapterUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@HiltViewModel
 class singlechapterViewModel @Inject constructor(
     private val getSingleChapterUseCase: GetSingleChapterUseCase,
     savedStateHandle: SavedStateHandle
@@ -20,7 +22,7 @@ class singlechapterViewModel @Inject constructor(
 
     init {
         val bibleid: String? = savedStateHandle.get<String>("bibleid")
-        val chapterid: String? = savedStateHandle.get<String>("id")
+        val chapterid: String? = savedStateHandle.get<String>("chapterid")
         bibleid?.let { chapterid?.let { it1 -> getchapters(it, it1) } }
     }
     fun getchapters(bibleid: String, chapterid: String){

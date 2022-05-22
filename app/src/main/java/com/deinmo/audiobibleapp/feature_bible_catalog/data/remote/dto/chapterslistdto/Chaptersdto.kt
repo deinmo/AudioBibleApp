@@ -1,6 +1,6 @@
 package com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.chapterslistdto
 
-import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Chapters
+import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Chapter
 import com.google.gson.annotations.SerializedName
 
 
@@ -13,11 +13,11 @@ data class Chaptersdto (
   @SerializedName("reference" ) var reference : String? = null
 
 ){
-  fun toChapters(): Chapters {
-    return Chapters(
+  fun toChapters(): Chapter {
+    return Chapter(
       id = id,
       bibleid = bibleId,
-      number = number?.toInt(),
+      number = number,
       bookid = bookId
     )
   }

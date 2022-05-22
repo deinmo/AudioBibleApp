@@ -25,7 +25,7 @@ import com.deinmo.audiobibleapp.core.Screen
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.BookData
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.BibleListItem
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.chapters.ChapterListScreen
-import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.singlechapter.SingleChapterScreen
+import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.singlechapter.SingleScreen
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.ui.AudioBibleAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,11 +45,11 @@ class MainActivity : ComponentActivity() {
                         composable(route = Screen.BibleListScreen.route){
                             BibleListScreen(navController = navController)
                         }
-                        composable(route = Screen.ChaptersListScreen.route){
-                            ChapterListScreen()
+                        composable(route = Screen.ChapterListScreen.route + "/{bibleid}" + "/{bookid}"){
+                            ChapterListScreen(navController = navController)
                         }
-                        composable(route = Screen.BibleListScreen.route){
-                            SingleChapterScreen()
+                        composable(route = Screen.SingleChapterScreen.route + "/{chapterid}" + "/{bibleid}"){
+                            SingleScreen()
                         }
                     }
                 }
@@ -73,7 +73,7 @@ fun BibleListScreen(
         LazyColumn(modifier = Modifier.fillMaxSize()){
             items(state.books){book: BookData ->
                 BibleListItem(bookData = book, onitemclick = {
-                    navController.navigate(Screen.ChaptersListScreen.route + "/${book.bibleid}" + "/${book.bookid}")
+                    navController.navigate(Screen.ChapterListScreen.route + "/${book.bibleId}" + "/${book.id}")
                 })
             }
         }

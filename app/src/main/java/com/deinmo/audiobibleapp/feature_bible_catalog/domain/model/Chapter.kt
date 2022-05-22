@@ -1,8 +1,8 @@
 package com.deinmo.audiobibleapp.feature_bible_catalog.domain.model
 
-data class Chapters(
+data class Chapter(
     val id : String?,
     val bibleid : String?,
-    val number : Int?,
+    val number : String?,
     val bookid : String?
 )

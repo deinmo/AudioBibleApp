@@ -11,8 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 
-class SingleChapterScreen {
-
 @Composable
 fun SingleScreen(
     viewModel: singlechapterViewModel = hiltViewModel()
@@ -29,5 +27,4 @@ fun SingleScreen(
     if(state.isloading){
         CircularProgressIndicator()
     }
-}
 }

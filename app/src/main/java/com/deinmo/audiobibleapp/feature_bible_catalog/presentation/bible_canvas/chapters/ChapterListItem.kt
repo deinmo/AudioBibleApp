@@ -9,19 +9,19 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Chapters
+import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Chapter
 
 @Composable
 fun ChapterListItem(
-    chapters: Chapters,
-    onitemclick: (Chapters) -> Unit
+    chapter: Chapter,
+    onitemclick: (Chapter) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onitemclick(chapters) }
+            .clickable { onitemclick(chapter) }
             .padding(16.dp)
     ) {
-        Text(text = "Chapter " + chapters.number,style = MaterialTheme.typography.body1)
+        Text(text = "Chapter " + chapter.number,style = MaterialTheme.typography.body1)
     }
 }

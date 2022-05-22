@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "233074081492",
+    "project_id": "audiobible-c8b71",
+    "storage_bucket": "audiobible-c8b71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233074081492:android:e9b8ecdaea8026fdda4541",
+        "android_client_info": {
+          "package_name": "com.deinmo.audiobibleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233074081492-nkbm7togmfks88orjlpv3bmrl44qlp1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRilTj8R15OgC34TcXF6CDjtfelTSMjlw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233074081492-nkbm7togmfks88orjlpv3bmrl44qlp1v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

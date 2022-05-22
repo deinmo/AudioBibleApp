@@ -15,8 +15,8 @@ class GetBooksUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<Resource<List<BookData>>> = flow{
         try{
-            val biblebooks = repository.getbooks(Constants.bibleid).map{ it.toBookData()}
             emit(Resource.Loading())
+            val biblebooks = repository.getbooks(Constants.bibleid)?.map{ it.toBookData()}
             emit(Resource.Success(biblebooks))
         }catch (e: HttpException){
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))

@@ -1,7 +1,6 @@
 package com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases
 
 import com.deinmo.audiobibleapp.core.Resource
-import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Chapters
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Data
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.repository.BibleDataRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,8 +14,8 @@ class GetSingleChapterUseCase @Inject constructor(
 ) {
     operator fun invoke(bibleid: String, chapterid: String): Flow<Resource<Data>> = flow{
             try{
-                val data = repository.getchapter(bibleid, chapterid)?.toData()
                 emit(Resource.Loading())
+                val data = repository.getchapter(bibleid, chapterid)?.toData()
                 emit(Resource.Success(data))
             }catch (e: HttpException){
                 emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))

@@ -1,10 +1,7 @@
 package com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases
 
-import com.deinmo.audiobibleapp.core.Constants
 import com.deinmo.audiobibleapp.core.Resource
-import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.BookData
-import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Chapters
-import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.ChaptersData
+import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Chapter
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.repository.BibleDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,13 +12,11 @@ import javax.inject.Inject
 class GetSingleBookUseCase @Inject constructor(
     val repository: BibleDataRepository
 ) {
-    operator fun invoke(bible: String, bookid: String): Flow<Resource<List<Chapters>>> = flow{
+    operator fun invoke(bible: String, bookid: String): Flow<Resource<List<Chapter>>> = flow{
         try{
-
-            val chaptersdata = repository.getsinglebook(bible,bookid)
-              val chapters =  chaptersdata.chapters.map{ it.toChapters()}
             emit(Resource.Loading())
-            emit(Resource.Success(chapters))
+            val chaptersdata = repository.getsinglebook(bible,bookid)?.map { it.toChapters() }
+            emit(Resource.Success(chaptersdata))
         }catch (e: HttpException){
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
         }catch (e: IOException){

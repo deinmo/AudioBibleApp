@@ -13,11 +13,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.deinmo.audiobibleapp.core.Screen
+import dagger.hilt.android.AndroidEntryPoint
 
-class ChapterListScreen {
 
-    @Composable
-    fun ChapterListScreen(
+@Composable
+fun ChapterListScreen(
         navController: NavController,
         viewModel: ChapterlistViewModel = hiltViewModel()
     ){
@@ -25,8 +25,8 @@ class ChapterListScreen {
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(modifier = Modifier.fillMaxSize()){
                 items(state.books){chapter ->
-                    ChapterListItem(chapters= chapter, onitemclick = {
-                        navController.navigate(Screen.ChaptersListScreen.route + "/${chapter.id}" + "/${chapter.bibleid}")
+                    ChapterListItem(chapter= chapter, onitemclick = {
+                        navController.navigate(Screen.SingleChapterScreen.route + "/${chapter.id}" + "/${chapter.bibleid}")
                     })
                 }
             }
@@ -40,4 +40,3 @@ class ChapterListScreen {
 
     }
 
-}
