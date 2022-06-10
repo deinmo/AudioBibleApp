@@ -10,14 +10,15 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class SaveSingleChapterUseCase @Inject constructor(
+class GetSavedChapterUseCase @Inject constructor(
     val repository: BibleDataRepository
-){
+) {
 
-    operator fun invoke(dataEntity: DataEntity): Flow<Resource<Boolean>> = flow{
+    operator fun invoke(id: String?): Flow<Resource<Data>> = flow{
         try{
             emit(Resource.Loading())
-            repository.insertchapter(dataEntity)
+            val data = repository.getsavedchapter(id)?.toData()
+            emit(Resource.Success(data))
         }catch (e: HttpException){
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
         }catch (e: IOException){

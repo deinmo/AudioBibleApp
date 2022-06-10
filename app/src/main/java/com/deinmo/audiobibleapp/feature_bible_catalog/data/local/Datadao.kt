@@ -17,5 +17,5 @@ interface Datadao {
     suspend fun getall(): List<DataEntity>
 
     @Query("SELECT * FROM dataentity WHERE id = :id")
-    suspend fun getsaveddata(id: Int?): DataEntity?
+    suspend fun getsaveddata(id: String?): DataEntity?
 }

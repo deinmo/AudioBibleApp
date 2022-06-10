@@ -14,18 +14,11 @@ import com.deinmo.audiobibleapp.feature_bible_catalog.domain.repository.BibleDat
 import javax.inject.Inject
 
 class BibleDataRepositoryImpl @Inject constructor(
-    private val api: BibleApi
+    private val api: BibleApi,
+    private val datadao: Datadao
 ): BibleDataRepository {
     override suspend fun getbooks(bibleid: String): List<BooksDatadto>? {
         var data = api.getbooks(bibleid).data
-    /*    if (data.get(5).bookId != null) {
-         Log.d("message","Success" + data[5].bookId)
-            return data
-        }
-        else{
-            Log.d("message","failure")
-            return null
-        }*/
         return data
     }
 
@@ -37,8 +30,15 @@ class BibleDataRepositoryImpl @Inject constructor(
         return api.getsinglechapter(bibleid, chapterid).data
     }
 
-   /* override suspend fun insertchapter(dataEntity: DataEntity) {
-        datadao.savechapterdata(dataEntity)
-    }*/
+    override suspend fun insertchapter(dataEntity: DataEntity)  {
+        return datadao.savechapterdata(dataEntity)
+    }
 
+    override suspend fun getsavedchapter(id : String?): DataEntity? {
+       return datadao.getsaveddata(id)
+    }
+
+    override suspend fun getallchapters(): List<DataEntity>? {
+        return datadao.getall()
+    }
 }

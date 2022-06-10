@@ -19,5 +19,9 @@ interface BibleDataRepository {
 
     suspend fun getchapter(bibleid: String,chapterid: String): Datadto?
 
-    //suspend fun insertchapter(dataEntity: DataEntity)*/
+    suspend fun insertchapter(dataEntity: DataEntity)
+
+    suspend fun getsavedchapter(id: String?):DataEntity?
+
+    suspend fun getallchapters(): List<DataEntity>?
 }

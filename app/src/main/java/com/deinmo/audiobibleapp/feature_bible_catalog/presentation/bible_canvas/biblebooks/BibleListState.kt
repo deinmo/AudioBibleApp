@@ -1,4 +1,4 @@
-package com.deinmo.audiobibleapp.feature_bible_catalog
+package com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.biblebooks
 
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.BookData
 

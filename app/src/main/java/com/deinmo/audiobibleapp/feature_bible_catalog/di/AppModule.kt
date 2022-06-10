@@ -10,6 +10,9 @@ import com.deinmo.audiobibleapp.feature_bible_catalog.domain.repository.BibleDat
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases.GetBooksUseCase
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases.GetSingleBookUseCase
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases.GetSingleChapterUseCase
+import com.deinmo.audiobibleapp.feature_profile.data.repository.ProfileRepositoryImpl
+import com.deinmo.audiobibleapp.feature_profile.domain.repository.ProfileRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -69,11 +72,25 @@ object AppModule {
     @Provides
     @Singleton
     fun providebiblerepository(
-        api: BibleApi
+        api: BibleApi,
+        db: DataInfoDatabase
     ): BibleDataRepository{
-        return BibleDataRepositoryImpl(api)
+        return BibleDataRepositoryImpl(api,db.datadao)
     }
 
+    @Provides
+    @Singleton
+    fun provideprofilerepo(
+        auth: FirebaseAuth
+    ): ProfileRepository {
+        return ProfileRepositoryImpl(auth)
+    }
+
+    @Provides
+    @Singleton
+    fun providefirebaseinstane(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
    /* @Provides
     @Singleton
     fun providegetbooksusecase(repository: BibleDataRepository): GetBooksUseCase{

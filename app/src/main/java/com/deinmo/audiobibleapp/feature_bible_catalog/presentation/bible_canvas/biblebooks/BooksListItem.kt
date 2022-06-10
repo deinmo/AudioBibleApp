@@ -1,4 +1,4 @@
-package com.deinmo.audiobibleapp.feature_bible_catalog.presentation
+package com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.biblebooks
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
