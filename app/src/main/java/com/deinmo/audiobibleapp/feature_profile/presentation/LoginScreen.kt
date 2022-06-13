@@ -30,7 +30,7 @@ fun LoginScreen(
             TextField(value = password, onValueChange = {password = it}, label = {Text("password")})
             Button(onClick = {
                 if (viewModel.isSuccessful(email, password) == true)
-                    navController.navigate(Screen.SingleChapterScreen.route)
+                    navController.navigate(Screen.ProfileScreen.route)
                 else
                     navController.navigate(Screen.SignUpScreen.route)
             }) {

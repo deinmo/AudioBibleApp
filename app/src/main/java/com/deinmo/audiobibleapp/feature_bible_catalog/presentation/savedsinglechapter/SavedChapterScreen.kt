@@ -22,6 +22,7 @@ import java.util.*
 
 @Composable
 fun SavedChapterScreen(
+    tts:TextToSpeech,
     viewModel: SavedChapterViewModel = hiltViewModel()
 ){
     val state = viewModel.state.value
@@ -31,9 +32,6 @@ fun SavedChapterScreen(
         .background(color = Color.LightGray)){
         var content = ExpandedText(description = state.readablechapter?.content ?: "")
         FloatingActionButton(onClick = {
-            var tts = TextToSpeech(context) {
-            }
-            tts.language = Locale.UK
             tts.speak(content,TextToSpeech.QUEUE_FLUSH,null,"")
         }) {
             Text(text = "Speak")

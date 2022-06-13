@@ -34,12 +34,15 @@ import com.deinmo.audiobibleapp.feature_profile.presentation.LoginScreen
 import com.deinmo.audiobibleapp.feature_profile.presentation.ProfileScreen
 import com.deinmo.audiobibleapp.feature_profile.presentation.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity()
+class MainActivity : ComponentActivity(),TextToSpeech.OnInitListener
 {
+    var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tts = TextToSpeech(this,this)
         setContent {
             AudioBibleAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -72,23 +75,23 @@ class MainActivity : ComponentActivity()
                                 })
                         }
                     ) {
-                        Navhostcontrol(navController = navController)
+                        Navhostcontrol(navController = navController, tts!!)
                     }
                 }
             }
         }
     }
 
-   /* override fun onInit(p0: Int) {
+    override fun onInit(p0: Int) {
         if (p0 == TextToSpeech.SUCCESS){
-
+            tts?.language = Locale.UK
         }
-    }*/
+    }
 }
 
 
 @Composable
-fun Navhostcontrol(navController: NavHostController){
+fun Navhostcontrol(navController: NavHostController,tts: TextToSpeech){
     NavHost(navController = navController, startDestination = Screen.BibleListScreen.route
     ){
         composable(route = Screen.BibleListScreen.route){
@@ -98,9 +101,6 @@ fun Navhostcontrol(navController: NavHostController){
             ChapterListScreen(navController = navController)
         }
         composable(route = Screen.SingleChapterScreen.route + "/{chapterid}" + "/{bibleid}"){
-            SingleScreen(navController = navController)
-        }
-        composable(route = Screen.SingleChapterScreen.route){
             SingleScreen(navController = navController)
         }
         composable(route = Screen.LoginScreen.route){
@@ -113,7 +113,7 @@ fun Navhostcontrol(navController: NavHostController){
             ProfileScreen(navController = navController)
         }
         composable(route = Screen.SavedChapterScreen.route + "/{id}"){
-            SavedChapterScreen()
+            SavedChapterScreen(tts)
         }
     }
 }
