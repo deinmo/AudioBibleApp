@@ -1,15 +1,16 @@
 package com.deinmo.audiobibleapp.feature_bible_catalog.presentation.savedsinglechapter
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.speech.tts.TextToSpeech
 import android.text.Html
+import android.widget.ScrollView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalContext
 import androidx.compose.ui.Modifier
@@ -17,25 +18,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.deinmo.audiobibleapp.MainActivity
+import com.deinmo.audiobibleapp.core.Screen
 import java.util.*
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@ExperimentalMaterial3Api
 @Composable
 fun SavedChapterScreen(
-    tts:TextToSpeech,
+    navController: NavController,
     viewModel: SavedChapterViewModel = hiltViewModel()
 ){
     val state = viewModel.state.value
-    var context = LocalContext.current
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(color = Color.LightGray)){
+  //  var context = LocalContext.current
+    Scaffold() {
+   // Box(modifier = Modifier
+     //   .fillMaxSize()) {
         var content = ExpandedText(description = state.readablechapter?.content ?: "")
         FloatingActionButton(onClick = {
-            tts.speak(content,TextToSpeech.QUEUE_FLUSH,null,"")
+            navController.navigate(Screen.AudioPlayerScreen.route + "/${content}")
         }) {
             Text(text = "Speak")
         }
+    //}
     }
     if(state.error.isNotBlank()){
         Text(text = state.error, textAlign = TextAlign.Center)
@@ -48,7 +54,7 @@ fun SavedChapterScreen(
 fun ExpandedText(
     description: String,
     modifier: Modifier = Modifier,
-    textstyle: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.body2,
+    textstyle: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.bodyLarge,
     expandable: Boolean = true,
     collapesdlines: Int = 3,
     expandadedlines: Int = Int.MAX_VALUE
@@ -58,9 +64,8 @@ fun ExpandedText(
     }else{
         Html.fromHtml(description)
     }
-
-    Text(text = text.toString(),
-        style = textstyle)
+    (Text(text = text.toString(),
+        style = textstyle,modifier = Modifier.verticalScroll(rememberScrollState())))
 
     return text.toString()
 }

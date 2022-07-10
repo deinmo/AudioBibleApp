@@ -1,6 +1,7 @@
 package com.deinmo.audiobibleapp.feature_bible_catalog.di
 
 import android.app.Application
+import android.speech.tts.TextToSpeech
 import androidx.room.Room
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.local.DataInfoDatabase
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.local.Datadao
@@ -24,6 +25,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -40,13 +42,17 @@ object AppModule {
         }
     }
 
-  /*  @Singleton
+    @Singleton
     @Provides
-    fun providehttpclient() {
-        val tokenInterceptor : TokenInterceptor()
-        return OkHttpClient.Builder()
-            .addInterceptor(tokenInterceptor)
-    }*/
+    fun providettspeech(app: Application): TextToSpeech? {
+       var tts: TextToSpeech? = null
+       tts = TextToSpeech(app, TextToSpeech.OnInitListener { textt ->
+            if (textt == TextToSpeech.SUCCESS){
+                 tts?.language = Locale.UK
+            }
+        })
+        return tts
+    }
 
     @Provides
     @Singleton

@@ -1,17 +1,18 @@
 package com.deinmo.audiobibleapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.widget.AdapterView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Login
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.*
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.deinmo.audiobibleapp.audio_player_screen.AudioScreen
 import com.deinmo.audiobibleapp.core.Screen
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.biblebooks.BibleListScreen
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.chapters.ChapterListScreen
@@ -33,16 +35,17 @@ import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.ui.AudioBible
 import com.deinmo.audiobibleapp.feature_profile.presentation.LoginScreen
 import com.deinmo.audiobibleapp.feature_profile.presentation.ProfileScreen
 import com.deinmo.audiobibleapp.feature_profile.presentation.SignUpScreen
+import com.deinmo.audiobibleapp.home_screen.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@ExperimentalMaterial3Api
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(),TextToSpeech.OnInitListener
+class MainActivity : ComponentActivity()
 {
-    var tts: TextToSpeech? = null
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tts = TextToSpeech(this,this)
         setContent {
             AudioBibleAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -56,18 +59,18 @@ class MainActivity : ComponentActivity(),TextToSpeech.OnInitListener
                                 items = listOf(
                                     BottomNavItem(
                                         "Books",
-                                        Screen.BibleListScreen.route,
+                                        Screen.HomeScreen.route,
                                         Icons.Default.Home
                                     ),
                                     BottomNavItem(
                                         "Login",
-                                        Screen.LoginScreen.route,
-                                        Icons.Default.Login
+                                        Screen.BibleListScreen.route,
+                                        Icons.Default.Email
                                     ),
                                     BottomNavItem(
                                         "Books",
                                         Screen.ProfileScreen.route,
-                                        Icons.Default.Image
+                                        Icons.Default.Info
                                     )
                                 ),
                                 navController = navController,
@@ -75,24 +78,19 @@ class MainActivity : ComponentActivity(),TextToSpeech.OnInitListener
                                 })
                         }
                     ) {
-                        Navhostcontrol(navController = navController, tts!!)
+                        Navhostcontrol(navController = navController)
                     }
                 }
             }
         }
     }
-
-    override fun onInit(p0: Int) {
-        if (p0 == TextToSpeech.SUCCESS){
-            tts?.language = Locale.UK
-        }
-    }
 }
 
 
+@ExperimentalMaterial3Api
 @Composable
-fun Navhostcontrol(navController: NavHostController,tts: TextToSpeech){
-    NavHost(navController = navController, startDestination = Screen.BibleListScreen.route
+fun Navhostcontrol(navController: NavHostController){
+    NavHost(navController = navController, startDestination = Screen.HomeScreen.route
     ){
         composable(route = Screen.BibleListScreen.route){
             BibleListScreen(navController = navController)
@@ -113,7 +111,13 @@ fun Navhostcontrol(navController: NavHostController,tts: TextToSpeech){
             ProfileScreen(navController = navController)
         }
         composable(route = Screen.SavedChapterScreen.route + "/{id}"){
-            SavedChapterScreen(tts)
+            SavedChapterScreen(navController = navController)
+        }
+        composable(route = Screen.AudioPlayerScreen.route + "/{content}"){
+            AudioScreen()
+        }
+        composable(route = Screen.HomeScreen.route){
+            HomeScreen(navController = navController)
         }
     }
 }
@@ -123,28 +127,19 @@ fun BottomNavBar(
     navController: NavController,
     modifier: Modifier = Modifier,
     onItemClick : (BottomNavItem) -> Unit
-){
+) {
     val backstack = navController.currentBackStackEntryAsState()
-    BottomNavigation(
-        modifier = modifier,
-        elevation = 5.dp,
-        backgroundColor = Color.Cyan
-    ) {
+    /*BottomNavBar(items = items, navController = navController , onItemClick = {item ->
+        onItemClick(item)})*/
+    BottomAppBar(modifier = modifier,tonalElevation = 0.dp) {
         items.forEach { item ->
             val selected = item.route == backstack.value?.destination?.route
-            BottomNavigationItem(
-                selected = selected,
-                onClick = { onItemClick(item) },
-                icon =  {
-                    Icon(imageVector = item.icon, contentDescription = item.name)
-                }
-            )
+            NavigationBarItem(selected = selected, onClick = {
+                onItemClick(item)
+            },icon = { Icon(imageVector = item.icon, contentDescription = null)})
         }
-    }
 }
-
-
-
+}
 
 @Preview(showBackground = true)
 @Composable

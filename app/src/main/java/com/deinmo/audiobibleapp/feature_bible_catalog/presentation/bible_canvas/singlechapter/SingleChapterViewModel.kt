@@ -9,7 +9,6 @@ import com.deinmo.audiobibleapp.core.Resource
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.local.entities.DataEntity
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.repository.BibleDataRepository
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases.GetSingleChapterUseCase
-import com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases.SaveSingleChapterUseCase
 import com.deinmo.audiobibleapp.feature_profile.domain.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

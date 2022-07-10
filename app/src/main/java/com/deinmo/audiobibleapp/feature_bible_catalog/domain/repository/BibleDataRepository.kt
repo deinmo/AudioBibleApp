@@ -6,6 +6,7 @@ import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.biblebookd
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.bookdto.BookDatadto
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.chapterslistdto.ChaptersDatadto
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.chapterslistdto.Chaptersdto
+import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.searchresponsedto.SearchResponsedto
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.singlechapterdto.Datadto
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.BookData
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.ChaptersData
@@ -24,4 +25,6 @@ interface BibleDataRepository {
     suspend fun getsavedchapter(id: String?):DataEntity?
 
     suspend fun getallchapters(): List<DataEntity>?
+
+    suspend fun getsearchedword(bibleid: String,query: String): SearchResponsedto?
 }

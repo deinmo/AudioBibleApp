@@ -9,6 +9,7 @@ import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.biblebookd
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.bookdto.BookDatadto
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.chapterslistdto.ChaptersDatadto
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.chapterslistdto.Chaptersdto
+import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.searchresponsedto.SearchResponsedto
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.singlechapterdto.Datadto
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.repository.BibleDataRepository
 import javax.inject.Inject
@@ -40,5 +41,9 @@ class BibleDataRepositoryImpl @Inject constructor(
 
     override suspend fun getallchapters(): List<DataEntity>? {
         return datadao.getall()
+    }
+
+    override suspend fun getsearchedword(bibleid: String,query: String): SearchResponsedto? {
+        return api.getsearchedword(bibleid, query)
     }
 }
