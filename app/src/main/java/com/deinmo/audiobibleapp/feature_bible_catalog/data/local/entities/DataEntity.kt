@@ -11,7 +11,8 @@ data class DataEntity(
     var number     : Int?,
     var bookId     : String?,
     var content    : String?,
-    var verseCount : Int?
+    var verseCount : Int?,
+    var reference : String?
 ){
     fun toData(): Data {
         return Data(
@@ -22,7 +23,8 @@ data class DataEntity(
             content = content,
             verseCount = verseCount,
             next = null,
-            previous = null
+            previous = null,
+            reference = reference
         )
     }
 }

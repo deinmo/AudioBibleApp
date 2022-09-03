@@ -3,6 +3,7 @@ package com.deinmo.audiobibleapp.feature_bible_catalog.domain.model
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.singlechapterdto.Next
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.singlechapterdto.Previous
 import com.google.gson.annotations.SerializedName
+import java.lang.ref.Reference
 
 data class Data(
     var id         : String?,
@@ -13,4 +14,5 @@ data class Data(
     var verseCount : Int?,
     var next       : Next?,
     var previous   : Previous?,
+    var reference: String?
 )

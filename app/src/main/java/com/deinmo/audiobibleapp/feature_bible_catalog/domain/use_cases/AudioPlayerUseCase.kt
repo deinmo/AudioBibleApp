@@ -1,6 +1,7 @@
 package com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases
 
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import com.deinmo.audiobibleapp.core.Resource
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.local.entities.DataEntity
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Data
@@ -16,8 +17,10 @@ class AudioPlayerUseCase @Inject constructor(
 ){
     fun playaudio(content: String){
         if (!tts?.isSpeaking!!){
+            Log.d("result","is not speaking")
             tts?.speak(content, TextToSpeech.QUEUE_FLUSH, null, "")
         }else{
+            Log.d("result","is speaking")
             tts?.stop()
         }
     }

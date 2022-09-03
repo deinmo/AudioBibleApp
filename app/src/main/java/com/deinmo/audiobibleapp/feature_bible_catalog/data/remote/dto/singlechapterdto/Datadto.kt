@@ -27,7 +27,8 @@ data class Datadto (
       content = content,
       verseCount = verseCount,
       next = next,
-      previous = previous
+      previous = previous,
+      reference = reference
     )
   }
 }

@@ -4,7 +4,6 @@ import com.deinmo.audiobibleapp.feature_bible_catalog.domain.model.Data
 import com.google.gson.annotations.SerializedName
 
 data class SearchVersedto(
-
     @SerializedName("id") var id: String? = null,
     @SerializedName("orgId") var orgId: String? = null,
     @SerializedName("bibleId") var bibleid: String? = null,
@@ -18,11 +17,12 @@ data class SearchVersedto(
             id = id,
             bibleId = bibleid,
             number = null,
-            bookId = bookid,
+            bookId = chapterId,
             content = text,
             verseCount = null,
             next = null,
-            previous = null
+            previous = null,
+            reference = reference
         )
     }
 }

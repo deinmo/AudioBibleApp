@@ -95,4 +95,13 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.0.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.0'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.0'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.0'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.18.0'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.0'
+
+    implementation 'androidx.datastore:datastore-core:1.0.0'
+
 }

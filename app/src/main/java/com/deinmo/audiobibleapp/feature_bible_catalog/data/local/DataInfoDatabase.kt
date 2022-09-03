@@ -1,5 +1,6 @@
 package com.deinmo.audiobibleapp.feature_bible_catalog.data.local
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.local.entities.DataEntity

@@ -10,4 +10,5 @@ sealed class Screen(val route: String){
     object SavedChapterScreen : Screen("saved_screen")
     object AudioPlayerScreen: Screen("audio_player")
     object HomeScreen: Screen("home_screen")
+    object SearchedScreenDemo: Screen("searched_screen")
 }

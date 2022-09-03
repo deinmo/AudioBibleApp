@@ -3,22 +3,32 @@ package com.deinmo.audiobibleapp
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.view.View
 import android.widget.AdapterView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
@@ -31,6 +41,7 @@ import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.chapters.ChapterListScreen
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.bible_canvas.singlechapter.SingleScreen
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.savedsinglechapter.SavedChapterScreen
+import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.search_screen.SearchedScreen
 import com.deinmo.audiobibleapp.feature_bible_catalog.presentation.ui.AudioBibleAppTheme
 import com.deinmo.audiobibleapp.feature_profile.presentation.LoginScreen
 import com.deinmo.audiobibleapp.feature_profile.presentation.ProfileScreen
@@ -49,10 +60,29 @@ class MainActivity : ComponentActivity()
         setContent {
             AudioBibleAppTheme {
                 // A surface container using the 'background' color from the theme
+                val bottomBarState = rememberSaveable {
+                    mutableStateOf(true)
+                }
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     val navController = rememberNavController()
+                    val navStackEntry by navController.currentBackStackEntryAsState()
+
+                    when (navStackEntry?.destination?.route){
+                         Screen.HomeScreen.route ->{
+                            bottomBarState.value = true
+                         }
+                        Screen.BibleListScreen.route -> {
+                            bottomBarState.value = true
+                        }
+                        Screen.ProfileScreen.route ->{
+                            bottomBarState.value = true
+                        }
+                        else -> {
+                            bottomBarState.value = false
+                        }
+                    }
                     Scaffold(
                         bottomBar = {
                             BottomNavBar(
@@ -60,22 +90,22 @@ class MainActivity : ComponentActivity()
                                     BottomNavItem(
                                         "Books",
                                         Screen.HomeScreen.route,
-                                        Icons.Default.Home
+                                        painterResource(id = R.drawable.ic_baseline_home_24)
                                     ),
                                     BottomNavItem(
                                         "Login",
                                         Screen.BibleListScreen.route,
-                                        Icons.Default.Email
+                                        painterResource(id = R.drawable.ic_baseline_menu_book_24)
                                     ),
                                     BottomNavItem(
                                         "Books",
                                         Screen.ProfileScreen.route,
-                                        Icons.Default.Info
+                                        painterResource(id = R.drawable.ic_baseline_favorite_24)
                                     )
                                 ),
                                 navController = navController,
                                 onItemClick = {navController.navigate(it.route)
-                                })
+                                },isUIAvailable = bottomBarState)
                         }
                     ) {
                         Navhostcontrol(navController = navController)
@@ -119,6 +149,9 @@ fun Navhostcontrol(navController: NavHostController){
         composable(route = Screen.HomeScreen.route){
             HomeScreen(navController = navController)
         }
+        composable(route = Screen.SearchedScreenDemo.route + "/{query}"){
+            SearchedScreen(navController = navController)
+        }
     }
 }
 @Composable
@@ -126,19 +159,31 @@ fun BottomNavBar(
     items: List<BottomNavItem>,
     navController: NavController,
     modifier: Modifier = Modifier,
+    isUIAvailable: MutableState<Boolean>,
     onItemClick : (BottomNavItem) -> Unit
 ) {
-    val backstack = navController.currentBackStackEntryAsState()
-    /*BottomNavBar(items = items, navController = navController , onItemClick = {item ->
-        onItemClick(item)})*/
-    BottomAppBar(modifier = modifier,tonalElevation = 0.dp) {
-        items.forEach { item ->
-            val selected = item.route == backstack.value?.destination?.route
-            NavigationBarItem(selected = selected, onClick = {
-                onItemClick(item)
-            },icon = { Icon(imageVector = item.icon, contentDescription = null)})
-        }
-}
+    AnimatedVisibility(visible = isUIAvailable.value,
+    enter = slideInVertically(initialOffsetY = {it}),
+    exit = slideOutVertically(targetOffsetY = {it}),content = {
+
+            val backstack = navController.currentBackStackEntryAsState()
+
+            NavigationBar(modifier = modifier,containerColor = MaterialTheme.colorScheme.inverseOnSurface) {
+                items.forEach { item ->
+                    val selected = item.route == backstack.value?.destination?.route
+                    NavigationBarItem(selected = selected, onClick = {
+                        navController.navigate(item.route){
+                            popUpTo(navController.graph.findStartDestination().id){
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },icon = { Icon(painter = item.icon, contentDescription = null)})
+                }
+            }
+        })
+
 }
 
 @Preview(showBackground = true)

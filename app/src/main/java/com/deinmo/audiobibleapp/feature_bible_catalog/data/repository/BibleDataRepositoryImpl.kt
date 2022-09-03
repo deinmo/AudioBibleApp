@@ -44,6 +44,6 @@ class BibleDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getsearchedword(bibleid: String,query: String): SearchResponsedto? {
-        return api.getsearchedword(bibleid, query)
+        return api.getsearchedword(bibleid, query)?.data
     }
 }

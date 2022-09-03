@@ -1,5 +1,6 @@
 package com.deinmo.audiobibleapp.feature_profile.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -11,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +25,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     navController: NavController
 ){
+    val context = LocalContext.current
         Column(
             modifier = Modifier.padding(40.dp).fillMaxSize(),verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -34,7 +37,7 @@ fun LoginScreen(
                 if (viewModel.isSuccessful(email, password) == true)
                     navController.navigate(Screen.ProfileScreen.route)
                 else
-                    navController.navigate(Screen.SignUpScreen.route)
+                    Toast.makeText(context,"Please try again", Toast.LENGTH_LONG)
             },modifier = Modifier.padding(25.dp).fillMaxWidth()) {
                 Text(text = "Login")
             }

@@ -35,6 +35,8 @@ fun SignUpScreen(
             Button(onClick = {
                 if(viewModel.isSuccessful(email,password) == true)
                     Toast.makeText(context,"Signed up successfully",Toast.LENGTH_LONG)
+                else
+                    Toast.makeText(context,"Please try again",Toast.LENGTH_LONG)
             }, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Signup")
             }

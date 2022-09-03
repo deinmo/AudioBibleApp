@@ -4,6 +4,7 @@ import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.chaptersli
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.singlechapterdto.SingleChapterdto
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.biblebookdto.BibleBooks
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.searchresponsedto.SearchResponsedto
+import com.deinmo.audiobibleapp.feature_bible_catalog.data.remote.dto.searchresponsedto.SearchedWordResponsedto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -19,5 +20,5 @@ interface BibleApi {
     suspend fun getsinglechapter(@Path("bibleid") bibleid:String,@Path("chapterid") chapterid:String) :SingleChapterdto
 
     @GET("v1/bibles/{bibleid}/search")
-    suspend fun getsearchedword(@Path("bibleid") bibleid: String,@Query("query") queryString: String):SearchResponsedto
+    suspend fun getsearchedword(@Path("bibleid") bibleid: String,@Query("query") queryString: String):SearchedWordResponsedto?
 }

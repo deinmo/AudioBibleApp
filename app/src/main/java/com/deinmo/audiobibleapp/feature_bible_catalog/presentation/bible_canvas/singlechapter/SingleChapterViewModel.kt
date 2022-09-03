@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.deinmo.audiobibleapp.core.Resource
 import com.deinmo.audiobibleapp.feature_bible_catalog.data.local.entities.DataEntity
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.repository.BibleDataRepository
+import com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases.AudioPlayerUseCase
 import com.deinmo.audiobibleapp.feature_bible_catalog.domain.use_cases.GetSingleChapterUseCase
 import com.deinmo.audiobibleapp.feature_profile.domain.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ class SingleChapterViewModel @Inject constructor(
     private val getSingleChapterUseCase: GetSingleChapterUseCase,
     private val repository: BibleDataRepository,
     private val profileRepository: ProfileRepository,
+    private val audioPlayerUseCase: AudioPlayerUseCase,
     savedStateHandle: SavedStateHandle
 )  : ViewModel(){
     private val _state = mutableStateOf(SingleChapterState())
@@ -54,4 +56,7 @@ class SingleChapterViewModel @Inject constructor(
          else
              return false
      }
+    fun onPlayPauseButtonPressed(content: String) = viewModelScope.launch {
+        content?.let { audioPlayerUseCase.playaudio(it) }
+    }
 }
